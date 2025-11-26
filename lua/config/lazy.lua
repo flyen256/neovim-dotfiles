@@ -21,6 +21,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Load configuration
 require("config.options")
+require("config.keymaps")
 require("lazy").setup({
 	spec = {
 		-- import your plugins
@@ -32,7 +33,6 @@ require("lazy").setup({
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 })
-require("config.keymaps")
 require("config.autocommands")
 
 -- Load plugins

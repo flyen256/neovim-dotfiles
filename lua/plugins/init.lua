@@ -1,5 +1,4 @@
 return {
-	-- Package manager
 	{
 		"folke/lazy.nvim",
 		version = "*",
@@ -8,8 +7,6 @@ return {
 		"mason-org/mason.nvim",
 		opts = {}
 	},
-
-	-- LSP configuration
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
@@ -24,8 +21,6 @@ return {
 
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-			-- Clangd for C/C++
 			lspconfig.clangd.setup({
 				capabilities = capabilities,
 			})
@@ -34,8 +29,6 @@ return {
 				capabilities = capabilities,
 				on_attach = on_attach,
 			})
-
-			-- TypeScript/JavaScript
 			require("vim.lsp").start({
 				name = "typescript",
 				cmd = { "typescript-language-server", "--stdio" },
@@ -50,8 +43,6 @@ return {
 				root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
 				capabilities = capabilities,
 			})
-
-			-- Lua
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 				settings = {
@@ -71,8 +62,6 @@ return {
 					},
 				},
 			})
-
-			-- Global keymaps and diagnostics
 			vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
 			vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
 			vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
@@ -95,8 +84,6 @@ return {
 			})
 		end,
 	},
-
-	-- Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -151,81 +138,60 @@ return {
 			})
 		end,
 	},
-
-	-- Mason - LSP manager
 	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate",
 	},
-
-	-- File explorer
-	{
-		"scrooloose/nerdtree",
-		config = function()
-			-- NERDTree configuration can go here
-		end,
-	},
-
 	{
 		"vim-airline/vim-airline-themes"
 	},
-
-	-- Status line
 	{
 		"vim-airline/vim-airline",
 		config = function()
-			-- Optional: Configure vim-airline here, e.g., enable powerline fonts
 			vim.g.airline_powerline_fonts = 1
 		end,
 	},
-
-	-- Multiple cursors
 	{
 		"terryma/vim-multiple-cursors",
 	},
-
-	-- Tagbar
 	{
 		"majutsushi/tagbar",
 	},
-
-	-- CSS color highlighter
 	{
 		"ap/vim-css-color",
 	},
-
-	-- Terminal
 	{
 		"tc50cal/vim-terminal",
 	},
-
-	-- Icons
 	{
 		"ryanoasis/vim-devicons",
 		config = function()
 			vim.g.webdevicons_enable = 1
-			vim.g.webdevicons_enable_nerdtree = 1
+			vim.g.webdevicons_enable_nerdtree = 0 -- Отключаем для NERDTree, т.к. не используем
 			vim.g.webdevicons_enable_airline_tabline = 1
 			vim.g.webdevicons_enable_airline_statusline = 1
+			vim.g.webdevicons_enable_unity = 1
+			vim.g.webdevicons_enable_ctrlp = 0
+			
+			-- Настройки для nvim-tree
+			vim.g.webdevicons_enable_nvim_tree = 1
+			
+			-- Дополнительные настройки иконок
+			vim.g.WebDevIconsUnicodeDecorateFolderNodes = 1
+			vim.g.DevIconsEnableFoldersOpenClose = 1
+			vim.g.WebDevIconsUnicodeDecorateFolderNodesDefaultSymbol = ''
+			vim.g.WebDevIconsUnicodeDecorateFileNodesDefaultSymbol = ''
 		end,
 	},
-
-	-- Colorschemes
 	{
 		"rafi/awesome-vim-colorschemes",
 	},
-
-	-- Commenting
 	{
 		"tpope/vim-commentary",
 	},
-
-	-- Surround
 	{
 		"tpope/vim-surround",
 	},
-
-	-- Snippets
 	{
 		"L3MON4D3/LuaSnip",
 		dependencies = { "rafamadriz/friendly-snippets" },
@@ -233,23 +199,15 @@ return {
 			require("luasnip.loaders.from_vscode").lazy_load()
 		end,
 	},
-
-	-- Wakatime
 	{
 		"wakatime/vim-wakatime",
 	},
-
-	-- C++ highlighting (replaces vim-lsp-cxx-highlight)
 	{
 		"jackguo380/vim-lsp-cxx-highlight",
 	},
-
-	-- Cord colorscheme
 	{
 		"vyfor/cord.nvim",
 	},
-
-	-- Treesitter
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -257,7 +215,7 @@ return {
 			require("nvim-treesitter.configs").setup({
 				ensure_installed = {
 					"lua", "vim", "vimdoc", "query",
-					"c", "cpp", "typescript", "javascript", "python"
+					"c", "cpp", "typescript", "javascript", "python", "c_sharp"
 				},
 				sync_install = false,
 				auto_install = true,
@@ -274,17 +232,80 @@ return {
 	},
 	{
 		"nvim-tree/nvim-tree.lua",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons", -- Добавьте это как зависимость
+			"ryanoasis/vim-devicons"
+		},
 		config = function()
 			require("nvim-tree").setup({
+				view = {
+						side = "left",           -- Фиксировать слева
+						width = 40,
+						float = {
+								enable = false,      -- Отключить плавающий режим
+						},
+				},
+				tab = {
+						sync = {
+								open = false,        -- Не открывать новую вкладку для nvim-tree
+								close = false,       -- Не закрывать при закрытии вкладки
+						},
+				},
+				renderer = {
+					icons = {
+						glyphs = {
+							default = "",
+							symlink = "",
+							folder = {
+								arrow_open = "",
+								arrow_closed = "",
+								default = "",
+								open = "",
+								empty = "",
+								empty_open = "",
+								symlink = "",
+								symlink_open = "",
+							},
+							git = {
+								unstaged = "✗",
+								staged = "✓",
+								unmerged = "",
+								renamed = "➜",
+								untracked = "★",
+								deleted = "",
+								ignored = "◌"
+							}
+						},
+						show = {
+							file = true,
+							folder = true,
+							folder_arrow = true,
+							git = true,
+						}
+					}
+				},
 				filters = {
 					dotfiles = false,
-					custom = { "^.git$", "^.svn$", "^.vs$", "^Library$", "^Temp$", "^Build$", "^obj$", "^Logs$" }
-				}
+					custom = { 
+						"^.git$", "^.svn$", "^.vs$", 
+						"^Library$", "^Temp$", "^Build$", 
+            "^.vscode$", "^.idea$", "^.csproj$",
+            ".meta", ".asset", ".inputactions",
+            ".csproj", ".DotSettings", ".log",
+            ".unity", ".prefab", ".mat", ".shadergraph",
+            "^UserSettings$", "^ProjectSettings$",
+            "^Packages$",
+						"^obj$", "^Logs$", "^MemoryCaptures$"
+					},
+				},
+        git = {
+          enable = true,
+          ignore = true,      -- уважать .gitignore
+          timeout = 500,
+        },
 			})
 		end
 	},
-
-	-- Floating terminal
 	{
 		"voldikss/vim-floaterm",
 		config = function()
@@ -292,13 +313,9 @@ return {
 			vim.g.floaterm_height = 0.8
 		end,
 	},
-
-	-- Plenary (dependency for Telescope)
 	{
 		"nvim-lua/plenary.nvim",
 	},
-
-	-- Telescope
 	{
 		"nvim-telescope/telescope.nvim",
 		tag = "v0.1.9",
@@ -314,13 +331,33 @@ return {
 			})
 		end,
 	},
-
-	-- Cobalt colorscheme
 	{
 		"ellisonleao/gruvbox.nvim",
 		config = function()
-			-- If you want to use the colorscheme directly in Lua:
 			vim.cmd("colorscheme gruvbox")
 		end,
+	},
+  {
+  "apyra/nvim-unity-sync",
+    lazy = false,
+    config = function()
+      require("unity.plugin").setup()
+    end,
+  },
+  {
+    "github/copilot.vim",
+    lazy = false,
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+    end,
+  },
+	{ 'echasnovski/mini.nvim', version = false },
+	{ 'echasnovski/mini.move', version = false },
+	{ 'echasnovski/mini.pairs', version = false },
+	{'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons'},
+	{
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
 	},
 }

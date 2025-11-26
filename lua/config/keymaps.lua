@@ -1,7 +1,7 @@
 local keymap = vim.keymap.set
 
 -- Leader key
-vim.g.mapleader = " "
+vim.g.mapleader = "\\"
 
 -- Yank/Paste to system clipboard
 keymap("v", "<leader>y", '"+y')
@@ -59,3 +59,4 @@ keymap("i", "[<tab>", "[]<Left>", { noremap = true })
 keymap("i", "{<tab>", "{}<Left>", { noremap = true })
 keymap("i", "{<CR>", "{<CR>}<ESC>O", { noremap = true })
 keymap("i", "{;<CR>", "{<CR>};<ESC>O", { noremap = true })
+

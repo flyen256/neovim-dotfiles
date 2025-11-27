@@ -290,19 +290,14 @@ return {
 						"^.git$", "^.svn$", "^.vs$", 
 						"^Library$", "^Temp$", "^Build$", 
             "^.vscode$", "^.idea$", "^.csproj$",
-            ".meta", ".asset", ".inputactions",
-            ".csproj", ".DotSettings", ".log",
-            ".unity", ".prefab", ".mat", ".shadergraph",
+            "^.*\\.meta$", "^.*\\.asset$", "^.*\\.inputactions$",
+            "^.*\\.csproj$", "^.*\\.DotSettings$", "^.*\\.log$",
+            "^.*\\.unity$", "^.*\\.prefab$", "^.*\\.mat$", "^.*\\.shadergraph$",
             "^UserSettings$", "^ProjectSettings$",
             "^Packages$",
 						"^obj$", "^Logs$", "^MemoryCaptures$"
 					},
 				},
-        git = {
-          enable = true,
-          ignore = true,      -- уважать .gitignore
-          timeout = 500,
-        },
 			})
 		end
 	},

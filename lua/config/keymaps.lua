@@ -55,3 +55,5 @@ keymap("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename symbol" })
 keymap("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code actions" }) 
 keymap("n", "<leader>fm", function() vim.lsp.buf.format { async = true } end, { desc = "Format buffer" })
 
+-- Files
+keymap("n", "<C-s>", ":w<CR>")
